@@ -1,0 +1,26 @@
+nginx:
+  build: .
+  dockerfile: Dockerfile-nginx 
+  ports:
+    - "80:80"
+  volumes:
+    - ~/DockerData/nginx:/var/log/nginx
+  links:
+    - rails
+mysql:
+  image: mysql
+  ports:
+    - "3306:3306"
+  volumes:
+    - ~/DockerData/mysql:/var/lib/mysql
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+rails:
+  build: .
+  dockerfile: Dockerfile-rails
+  ports:
+    - "3000"
+  environment:
+      RAILS_ENV: production
+  links:
+    - mysql
